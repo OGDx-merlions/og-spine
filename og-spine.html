@@ -1,0 +1,241 @@
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. tests, examples), we assume the server is started with
+    'gulp serve' (or similar server setup) to enable correct finding of bower dependencies for local runs.
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+
+<link rel="import" href="../og-sparkline/og-sparkline.html">
+
+<link rel="import" href="css/og-spine-styles.html">
+
+<!--
+REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
+
+### Usage
+
+    <og-spine counter-value="1"></og-spine>
+
+@element og-spine
+@blurb REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
+@homepage index.html
+@demo index.html
+-->
+
+<dom-module id="og-spine">
+  <template>
+    <style include="og-spine-styles"></style>
+    <div class="component">
+      <!-- <div class="flex flex--row flex--left delta">[[dashboardName]]<div> -->
+      <div class="main-area">
+        <div class="flex flex--wrap u-1/1 col-2">
+          <div class="flex flex--row tenth  u-1/1-portable">
+            <div  on-tap="_gotoHome"><img class="logo" src="../../resources/bhge2.png"></div>
+          </div>
+          <div class="flex flex--row tenth  u-1/1-portable kpi_1">
+          <div class="rep-text">
+            <div class="caps">WELL COUNT</div>
+            <div><span class="epsilon-low flex flex--bottom">{{wellCountDef}}</span></div>
+          </div>
+          </div>
+
+          <div class="flex flex--row tenth  u-1/1-portable kpi_2">
+            <div class="flex flex--col">
+                <div class="flex flex--row">
+                  <div class="caps">LIQUID</div>
+                  <div class="slightLeft">
+                    <div class="weight--bold" hidden$="{{toggleLiquidRep}}">
+                        <px-icon icon="px-nav:up" class="rate-icon" style="color: #7fae1b;"></px-icon> <span class="">{{liqTopDef}}</span>
+                    </div>
+                    <div hidden$="{{!toggleLiquidRep}}" class="rightened">
+                        <span class="weight--bold">&nbsp;{{liquidDef}}</span><span class="zeta ">&nbsp;bbl/day</span>
+                    </div>
+                  </div>
+                </div>
+               <div class="flex flex--row flex--justify flex--middle">
+                  <div class="" on-tap="handleLiquidRepHover">
+                    <div class="chart" hidden$="{{!toggleLiquidRep}}">
+                      <og-sparkline
+                        chart-data="{{liquidData.points}}"
+                        line-width="3"
+                        line-color="#e9a24b"
+                        width="125"
+                        height="75"
+                        axis-color="#677e8c"
+                        axis-width="1.5"
+                        cur-position="{{liquidData.pos}}">
+                      </og-sparkline>
+                    </div>
+                    <div class="percent-diag" hidden$="{{toggleLiquidRep}}">
+                      <div class="flex flex--left epsilon-low"><span>{{liquidDef}}</span><span class="zeta lowered"> &nbsp;bbl/day</span></div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="flex flex--row tenth  u-1/1-portable kpi_3">
+            <div class="flex flex--col">
+                <div class="flex flex--row">
+                  <div class="caps">OIL</div>
+                  <div class="slightLeft">
+                    <div class="weight--bold" hidden$="{{toggleOilRep}}">
+                        <px-icon icon="px-nav:up" class="rate-icon" style="color: #7fae1b;"></px-icon> <span class="">{{oilTopDef}}</span>
+                    </div>
+                    <div hidden$="{{!toggleOilRep}}" class="rightened">
+                        <span class="weight--bold">&nbsp;{{oilDef}}</span><span class="zeta">&nbsp;bbl/day</span>
+                    </div>
+                  </div>
+                </div>
+              <div class="flex flex--row flex--justify flex--middle">
+                  <div class="" on-tap="handleOilRepHover">
+                    <div class="chart" hidden$="{{!toggleOilRep}}">
+                      <og-sparkline
+                        chart-data="{{oilData.points}}"
+                        line-width="3"
+                        line-color="#9fcb57"
+                        width="125"
+                        height="75"
+                        axis-color="#677e8c"
+                        axis-width="1.5"
+                        cur-position="{{oilData.pos}}">
+                      </og-sparkline>
+                    </div>
+                    <div class="percent-diag" hidden$="{{toggleOilRep}}">
+                      <div class="flex flex--left epsilon-low"><span>{{oilDef}}</span><span class="zeta lowered"> &nbsp;bbl/day</span></div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="flex flex--row tenth  u-1/1-portable kpi_4">
+            <div class="flex flex--col">
+                <div class="flex flex--row ">
+                  <div class="caps">GAS</div>
+                  <div class="slightLeft">
+                    <div class="weight--bold" hidden$="{{toggleGasRep}}">
+                        <px-icon icon="px-nav:up" class="rate-icon" style="color: #7fae1b;"></px-icon> <span class="">{{gasTopDef}}</span>
+                    </div>
+                    <div hidden$="{{!toggleGasRep}}" class="rightened">
+                        <span class="weight--bold">&nbsp;{{gasDef}}</span><span class="zeta">&nbsp;MCFD</span>
+                    </div>
+                  </div>
+                </div>
+              <div class="flex flex--row flex--justify flex--middle">
+                  <div class="" on-tap="handleGasRepHover">
+                    <div class="chart" hidden$="{{!toggleGasRep}}">
+                      <og-sparkline
+                        chart-data="{{gasData.points}}"
+                        line-width="3"
+                        line-color="#d67577"
+                        width="125"
+                        height="75"
+                        axis-color="#677e8c"
+                        axis-width="1.5"
+                        cur-position="{{gasData.pos}}">
+                      </og-sparkline>
+                    </div>
+                    <div class="percent-diag" hidden$="{{toggleGasRep}}">
+                      <div class="flex flex--left epsilon-low"><span>{{gasDef}}</span><span class="zeta lowered"> &nbsp;MCFD</span></div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="flex flex--row tenth  u-1/1-portable kpi_5">
+            <div class="flex flex--col">
+                <div class="flex flex--row">
+                  <div class="caps">WATER</div>
+                  <div class="slightLeft">
+                    <div class="weight--bold" hidden$="{{toggleWaterRep}}">
+                        <px-icon icon="px-nav:down" class="rate-icon" style="color: #f34336;"></px-icon> <span class=" ">{{waterTopDef}}</span>
+                    </div>
+                    <div hidden$="{{!toggleWaterRep}}" class="rightened">
+                        <span class="weight--bold">&nbsp;{{waterDef}}</span><span class="zeta">&nbsp;bbl/day</span>
+                    </div>
+                  </div>
+                </div>
+              <div class="flex flex--row flex--justify flex--middle">
+                  <div class="" on-tap="handleWaterRepHover">
+                    <div class="chart" hidden$="{{!toggleWaterRep}}">
+                      <og-sparkline
+                        chart-data="{{waterData.points}}"
+                        line-width="3"
+                        line-color="#7096b5"
+                        width="125"
+                        height="75"
+                        axis-color="#677e8c"
+                        axis-width="1.5"
+                        cur-position="{{waterData.pos}}">
+                      </og-sparkline>
+                    </div>
+                    <div class="percent-diag" hidden$="{{toggleWaterRep}}">
+                      <div class="flex flex--left epsilon-low"><span>{{waterDef}}</span><span class="zeta lowered"> &nbsp;bbl/day</span></div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="flex flex--row tenth u-1/1-portable alerts-col kpi_6">
+            <div class="rep-text">
+              <div class="caps">UNCLAIMED ALERTS</div>
+              <div><span class="epsilon-low flex flex--bottom upped">{{alerTopLowDef}}/{{alerTopHigDef}}</span></div>
+            </div>
+        </div>
+        <div class="flex flex--row tenth u-1/1-portable alerts-col kpi_7">
+          <div class="rep-text">
+            <div class="caps">OPEN CASES</div>
+            <div><span class="epsilon-low  flex flex--bottom" >{{casesTopLowDef}}/{{casesTopHigDef}}</span></div>
+          </div>
+
+          </div>
+          <div class="flex flex--row two-tenth  u-1/1-portable kpi_8" style="border-right: 0rem;">
+            <div class="flex flex--col u-4/6 static-info">
+              <div class="flex flex--wrap flex--left my-ac-row">
+                <div class="u-1/6">
+                  <svg width="2.2rem" height="1.5rem" class="imp-svg">
+                    <polygon id="polygon" points="15.5,3 32,30 1,30" fill="#f34336"></polygon>
+                  </svg>
+                </div>
+                <div class="u-4/6">
+                  <div class="weight--bold">ESP Alert</div>
+                  <div class="muted">Midland Well 2F</div>
+                </div>
+              </div>
+              <div class="flex flex--wrap flex--left my-ac-row">
+                <div class="u-1/6 ">
+                  <svg width="1.5rem" height="1.5rem">
+                    <polygon id="polygon" points="3,3 3,30 30,30 30,3" fill="#9d7200"></polygon>
+                  </svg>
+                </div>
+                <div class="u-4/6">
+                  <div class="weight--bold">Pump Alert</div>
+                  <div class="muted">Goose Creek Well 18B</div>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex--col u-2/6 avatar-div" >
+              <div class="flex flex--row flex--right flex--bottom right-nav">
+                <div class="flex flex--col u-1/2">
+                <div class="chat-icon"><px-icon icon="px-com:chat"></px-icon></div>
+              </div>
+              <div class="flex flex--col u-1/2">
+                <div class="avatar"><img src="../../resources/avatar.png"></div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+</dom-module>
+<script src="dist/og-spine.js"></script>

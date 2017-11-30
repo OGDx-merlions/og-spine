@@ -1,0 +1,202 @@
+@import 'px-flexbox-design/_base.flexbox.scss';
+@import "px-widths-responsive-design/_trumps.widths-responsive.scss";
+
+@import "px-helpers-design/_generic.helpers.scss";
+@import "px-typography-design/_base.typography.scss";
+@import "px-headings-design/_base.headings.scss";
+
+$inuit-enable-responsive-margins--none : true;
+$inuit-enable-responsive-paddings--large : true;
+@import 'px-spacing-responsive-design/_trumps.spacing-responsive.scss';
+
+$padding: calculateRem(5px);
+
+
+.zeta {
+    font-size: 60%;
+}
+
+:host {
+  .spine-icon {
+    --iron-icon-width: 2.5rem;
+    --iron-icon-height: 2.5rem;
+  }
+  .rate-icon {
+    --iron-icon-width: 1rem;
+    --iron-icon-height: 1rem;
+  }
+
+  #gas-percent {
+    --px-percent-circle-fill-color: #8098ff;
+  }
+  #oil-percent {
+    --px-percent-circle-fill-color: #df669b;
+  }
+  #water-percent {
+    --px-percent-circle-fill-color: #7ba662;
+  }
+  #liquid-percent {
+    --px-percent-circle-fill-color: #e9a24b;
+  }
+}
+
+.main-area {
+  //padding: $padding 0 $padding 0;
+  height: 11.1%;
+}
+
+.col-2 {
+  height: 100%;
+  margin-bottom: 0.5%;
+  &> div {
+    border-right: calculateRem(0.1px) solid $gray10;
+    padding-left: 1rem;
+    padding-top: $padding;
+  }
+  .pinned-true {
+    color: $yellow-green4;
+  }
+  .pinned-false {
+    color: $gray1;
+  }
+  .percent-diag {
+    width: 50%;
+    margin-left: 0rem;
+  }
+  .rep-text {
+    padding-left: 0.4rem;
+  }
+}
+
+.col-3 {
+  background-color: $gray15;
+  padding-left: 0rem;
+  border-right: 0px !important;
+  padding-top: 0px;
+
+  .col-3-row {
+    .count-row {
+      //padding-bottom: calculateRem(15px);
+    }
+  }
+  .col-3-row-2 {
+    font-size: 0.8rem;
+  }
+  .my-ac-title {
+    font-size: 1rem;
+  }
+  .my-ac-row {
+    padding-top: calculateRem(2px);
+    padding-bottom: calculateRem(2px);
+    width: 100%;
+    .imp-svg {
+      margin-left: 0.2rem;
+    }
+  }
+}
+
+.tenth {
+  width: 8.75%;
+}
+
+.two-tenth {
+  width: 19.25%;
+}
+
+.right-nav
+  div {
+    padding-top: 10%;
+    padding-right: 0;
+    color: $gray12;
+  }
+  .chat-icon {
+    height: 29.8%;
+  }
+  .avatar > img {
+    //border-radius: 50%;
+    width: 80%;
+    height: 29.8%;
+    margin-left: 0;
+  }
+
+.chart {
+  margin-bottom: -10%;
+}
+
+.epsilon {
+  //font-size: calculateRem(30px);
+  font-size: 180%;
+}
+
+.epsilon-low {
+  //font-size: calculateRem(30px);
+  font-size: 180%;
+  padding-top: 10%;
+  margin-left: -10%;
+}
+
+.logo{
+  padding-top: 15%;
+  width: 95%;
+  height: 70%;
+}
+
+.upped {
+  //margin-top: calculateRem(-3px);
+}
+
+.lowered {
+  //margin-bottom: -10%;
+  padding-top: 10%;
+}
+
+// .leftened{
+//   margin-left: -15%;
+// }
+
+.slightLeft{
+  margin-left: 22%;
+}
+.rightened{
+  //margin-left: 15%;
+}
+// og-simple-line-chart {
+//   width: calculateRem(150px);
+//   height: calculateRem(75px);
+// }
+
+@media screen and (max-width: 1920px) and (min-width: 1602px){
+    .component { font-size: 14px;}
+}
+
+@media screen and (max-width: 1602px) and (min-width: 1366px) {
+    .component { font-size: 13px;}
+}
+
+@media screen and (max-width: 1366px) and (min-width: 1024px) {
+    .component { font-size: 11.5px;}
+    .static-info {display: none; width: 0%;}
+    .avatar-div {width: 100% !important;}
+    .tenth {
+      width: 9.5% !important;
+    }
+
+    .two-tenth {
+      width: 9.5% !important;
+    }
+}
+
+@media screen and (max-width: 1024px) and (min-width: 700px) {
+    .component { font-size: 10px;}
+    .kpi_6 {display: none;width: 0%;}
+    .kpi_7 {display: none;width: 0%;}
+    .static-info {display: none; width: 0%;}
+    .avatar-div {width: 100% !important;}
+    .tenth {
+      width: 12% !important;
+    }
+
+    .two-tenth {
+      width: 12% !important;
+    }
+}
