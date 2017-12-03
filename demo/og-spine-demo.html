@@ -9,6 +9,7 @@
 <link rel="import" href="../../px-demo/px-demo-props.html" />
 <link rel="import" href="../../px-demo/px-demo-interactive.html" />
 <link rel="import" href="../../px-demo/px-demo-component-snippet.html" />
+<link rel="import" href="../../px-demo/px-demo-code-editor.html" />
 
 <!-- Imports for this component -->
 <link rel="import" href="../../px-demo/css/px-demo-styles.html" />
@@ -24,6 +25,18 @@
         module-name="og-spine"
         description="The og-spine component is...">
     </px-demo-header>
+    
+    <!-- Component ---------------------------------------------------------->
+    <px-demo-component style="width: 100%">
+      <og-spine
+        logo="{{props.logo.value}}"
+        avatar="{{props.avatar.value}}"
+        items="{{props.items.value}}"
+        alerts-and-cases="{{props.alertsAndCases.value}}"
+        data="{{props.data.value}}">
+      </og-spine>
+    </px-demo-component>
+    <!-- END Component ------------------------------------------------------>
 
     <!-- Interactive -->
     <px-demo-interactive>
@@ -32,14 +45,8 @@
 
       <!-- Props -->
       <px-demo-props props="{{props}}" config="[[chosenConfig]]"></px-demo-props>
-
-      <!-- Component ---------------------------------------------------------->
-      <px-demo-component>
-        <og-spine
-          counter-value="{{props.counterValue.value}}">
-        </og-spine>
-      </px-demo-component>
-      <!-- END Component ------------------------------------------------------>
+      
+      <px-demo-code-editor slot="px-demo-code-editor" props="{{props}}" config="[[chosenConfig]]"></px-demo-code-editor>
 
       <px-demo-component-snippet
           element-properties="{{props}}"
@@ -197,10 +204,97 @@
      * A reference for `this.props`. Read the documentation there.
      */
     demoProps: {
-      counterValue: {
-        type: Number,
-        defaultValue: '0',
+      logo: {
+        type: String,
+        defaultValue: './demo/bhge2.png',
         inputType: 'text'
+      },
+      avatar: {
+        type: String,
+        defaultValue: './demo/avatar.png',
+        inputType: 'text'
+      },
+      alertsAndCases: {
+        type: Array,
+        inputType: 'code:JSON',
+        defaultValue: [{
+          "type": 'high',
+          "label": 'ESP Alert',
+          "subtitle": 'Midland Well 2F'
+         }, {
+          "type": 'medium',
+          "label": 'Pump Alert',
+          "subtitle": 'Goose Creek Well 3B'
+         }]
+      },
+      items: {
+        type: Array,
+        defaultValue: [{
+          "label": "Well Count"
+         }, {
+          "label": "Liquid",
+          "unit": "bbl/day",
+          "hideInDevices": ['mobile, tablets'],
+          "sparklineConfig": {
+            "width": "125",
+            "height": "75",
+            "lineWidth": "3",
+            "lineColor": "#e9a24b",
+            "axisColor": "#677e8c",
+            "axisWidth": "1.5",
+            "curPositionRadius": "4",
+            "curPositionColor": "red"
+          },
+          "valueFormatter": function(val) {
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          }
+         }, {
+          "label": "Oil"
+         }, {
+          "label": "Gas"
+         }, {
+          "label": "Water"
+         }, {
+          "label": "Unclaimed Alerts",
+          "hideInDevices": ['(max-width: 1024px) and (min-width: 700px)', 
+              '(max-width: 1366px) and (min-width: 1024px)']
+         }, {
+          "label": "Open Cases",
+          "hideInDevices": ['(max-width: 1024px) and (min-width: 700px)', 
+              '(max-width: 1366px) and (min-width: 1024px)']
+         }],
+        inputType: 'code:JSON'
+      },
+      data: {
+        type: Array,
+        inputType: 'code:JSON',
+        defaultValue: [{
+           value: '280',
+         }, {
+           value: '289488',
+           trend: {
+            value: '15009',
+            direction: 'up'
+           },
+           sparkline: {
+             value: [[1,1],[2,2],[3,4],[4,2],[5,5]],
+             cursorPosition: [2,2] 
+           }
+         }, {
+           value: '144344',
+           trend: {
+            value: '3229',
+            direction: 'down',
+           }
+         }, {
+           value: '280',
+         }, {
+           value: '280',
+         }, {
+           value: '10/76',
+         }, {
+           value: '75/98',
+         }]
       }
     }
   });

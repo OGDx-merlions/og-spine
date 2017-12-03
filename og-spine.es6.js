@@ -1,201 +1,193 @@
 (function() {
   Polymer({
     is: 'og-spine',
+    
+    behaviors: [
+      Polymer.IronResizableBehavior
+    ],
+
+    listeners: {
+      'iron-resize': '_onIronResize'
+    },
+
     properties: {
-      spineDefaults: {
-          type: Object,
-          value: {
-              "wellcount": 208,
-              "liquid": "289488",
-              "oil": "144636",
-              "gas": "30008",
-              "water": "144852"
-          }
+      /**
+       * Path to Logo
+       * @property logo
+       */
+      logo: String,
+      /**
+       * Path to Avatar
+       * @property avatar
+       */
+      avatar: String,
+      /**
+       * Array of Spine items of the format
+       * [{
+       *  label: "Well Count"
+       * }, {
+       *  label: "Liquid",
+       *  unit: "bbl/day",
+       *  hideInDevices: ['min-width:1000px'],
+       *  sparklineConfig: {
+       *    width: "125"
+            height: "75"
+            lineWidth: "3"
+            lineColor: "#e9a24b"
+            axisColor: "#677e8c"
+            axisWidth: "1.5"
+            curPositionRadius: "4"
+            curPositionColor: "red"
+       *  },
+       *  valueFormatter: function(val) {
+       *    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+       *  }
+       * }...]
+       * @property items
+       */
+      items: {
+        type: Array,
+        value() {
+          return [];
+        },
+        observer: 'onItemsChange'
       },
-      wellCountDef: {
-          type: String,
-          value: function() {
-              return this.properties.spineDefaults.value.wellcount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
-      },
-      liquidDef: {
-          type: String,
-          value: function() {
-              return this.properties.spineDefaults.value.liquid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
-      },
-      oilDef: {
-          type: String,
-          value: function() {
-              return this.properties.spineDefaults.value.oil.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
-      },
-      gasDef: {
-          type: String,
-          value: function() {
-              return this.properties.spineDefaults.value.gas.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
-      },
-      waterDef: {
-          type: String,
-          value: function() {
-              return this.properties.spineDefaults.value.water.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
-      },
-      oilData: {
-        type: Object,
-        value: function() {
-          return {
-            "points": [[1,1], [2,3], [3,2], [4,3], [5,8]]
-          }
+      /**
+       * Array of alerts of the format
+       * [{
+       *  type: 'high',
+       *  label: 'ESP Alert',
+       *  subtitle: 'Midland Well 2F'
+       * }, {
+       *  type: 'medium',
+       *  label: 'Pump Alert',
+       *  subtitle: 'Goose Creek Well 3B'
+       * }...]
+       * @property alertsAndCases
+       */
+      alertsAndCases: {
+        type: Array,
+        value() {
+          return [];
         }
       },
-      waterData: {
-        type: Object,
-        value: function() {
-          return {
-            "points": [[1,3], [2,1], [3,3], [4,4], [5,3]]
-          }
-        }
-      },
-      gasData: {
-        type: Object,
-        value: function() {
-          return {
-            "points": [[1,2], [2,4], [3,1], [4,2], [5,8]]
-          }
-        }
-      },
-      liquidData: {
-        type: Object,
-        value: function() {
-          return {
-            "points": [[1,1], [2,2], [3,4], [4,2], [5,5]]
-          }
-        }
-      },
-      toggleGasRep: {
-        type: Boolean,
-        value: false
-      },
-      toggleOilRep: {
-        type: Boolean,
-        value: false
-      },
-      toggleWaterRep: {
-        type: Boolean,
-        value: false
-      },
-      toggleLiquidRep: {
-        type: Boolean,
-        value: false
-      },
-      spineTopDefaults: {
-          type: Object,
-          value: {
-              "liquid": {"default": "15009", "group": "1400", "item": 120},
-              "oil": {"default": "2302", "group": 320, "item": 18},
-              "gas": {"default": "3003", "group": 445, "item": 55},
-              "water": {"default": "1305", "group": 150, "item": 25},
-              "alerts": {"default": {"low": 10, "high": 76}, "group": {"low": 8, "high": 10}, "item": {"low": 2, "high": 7}},
-              "cases": {"default": {"low": 75, "high": 98}, "group": {"low": 53, "high": 72}, "item": {"low": 27, "high": 49}}
-          }
-      },
-      liqTopDef: {
-          type: String,
-          value: function() {
-              return this.properties.spineTopDefaults.value.liquid.default.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
-      },
-      oilTopDef: {
-          type: String,
-          value: function() {
-              return this.properties.spineTopDefaults.value.oil.default.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
-      },
-      gasTopDef: {
-          type: String,
-          value: function() {
-              return this.properties.spineTopDefaults.value.gas.default.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
-      },
-      waterTopDef: {
-          type: String,
-          value: function() {
-              return this.properties.spineTopDefaults.value.water.default.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
-      },
-      alerTopLowDef: {
-          type: String,
-          value: function() {
-              return this.properties.spineTopDefaults.value.alerts.default.low.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
-      },
-      alerTopHigDef: {
-          type: String,
-          value: function() {
-              return this.properties.spineTopDefaults.value.alerts.default.high.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
-      },
-      casesTopLowDef: {
-          type: String,
-          value: function() {
-              return this.properties.spineTopDefaults.value.cases.default.low.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
-      },
-      casesTopHigDef: {
-          type: String,
-          value: function() {
-              return this.properties.spineTopDefaults.value.cases.default.high.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
+      /**
+       * Array of Spine item data
+       * [{
+       *   value: '280'
+       * }, {
+       *   value: '289488'
+       *   trend: {
+       *    value: '15009'
+       *    direction: 'up'
+       *   },
+       *   sparkline: {
+       *     value: [[1,1],[2,2],[3,4],[4,2],[5,5]],
+       *     cursorPosition: [2,2] 
+       *   }
+       * }, {
+       *   value: '144344'
+       *   trend: {
+       *    value: '3229'
+       *    direction: 'down'
+       *   }
+       * }...]
+       * @property data
+       */
+      data: {
+        type: Array,
+        value() {
+          return [];
+        },
+        observer: "_onDataChange"
       }
     },
     ready: function() {
     },
-    handleGasRepHover: function() {
-      if(!this.isGasRepPinned) {
-        this.set('toggleGasRep', !this.toggleGasRep);
+    onItemsChange(newItems, oldItems) {
+      this._processItems(newItems);
+    },
+    _processItems(items) {
+      if(items && items.length) {
+        items.forEach((_item, idx) => {
+          if(_item.hideInDevices && _item.hideInDevices.length) {
+            _item.hideInDevices.every((_mediaQuery) => {
+              if(_mediaQuery && window.matchMedia(_mediaQuery).matches) {
+                this.set(`items.${idx}.show`, false);
+                return false;
+              } else {
+                this.set(`items.${idx}.show`, true);
+                return true;
+              }
+            });
+          } else {
+            this.set(`items.${idx}.show`, true);
+          }
+        });
+        this._onDataChange(this.data);
       }
     },
-    pinGasRep: function() {
-      this.set('isGasRepPinned', !this.isGasRepPinned);
-    },
-    handleOilRepHover: function() {
-      if(!this.isOilRepPinned) {
-        this.set('toggleOilRep', !this.toggleOilRep);
+    _onDataChange(newVal, oldVal) {
+      if(newVal && this.items) {
+        newVal.forEach((_itemData, idx) => {
+          const formatter = this.items[idx].valueFormatter || this.defaultValueFormatter;
+          _itemData.value = formatter(_itemData.value);
+          if(_itemData && _itemData.trend) {
+            _itemData.trend.value = formatter(_itemData.trend.value);
+            if(_itemData.trend.direction === 'up') {
+              _itemData.trend.color = "#7fae1b";
+            } else {
+              _itemData.trend.color = "#d67577";
+            }
+          }
+        });
+        if(this.items) {
+          this.items.forEach((_item, idx) =>  {
+            if(newVal.length > idx) {_item.data = newVal[idx]};
+            _item.toggleSparkline = false;
+          });
+        }
+        this.notifyPath('items.*');
       }
     },
-    pinOilRep: function() {
-      this.set('isOilRepPinned', !this.isOilRepPinned);
+    getKpiState(idx) {
+      return this.items[idx].toggleSparkline;
     },
-    handleWaterRepHover: function() {
-      if(!this.isWaterRepPinned) {
-        this.set('toggleWaterRep', !this.toggleWaterRep);
+    fireLogoTap: function() {
+      this.fire('logo-tapped');
+    },
+    fireAlertAvatarTapEvent(event) {
+      this.fire("alert-avatar-section-tapped", event);
+    },
+    handleKpiTap(event) {
+      const idx = event.model.get('idx');
+      if(!this.items[idx].sparklineConfig) {return;}
+      this.set(`items.${idx}.toggleSparkline`, !this.items[idx].toggleSparkline);
+      this.notifyPath(`items.${idx}.toggleSparkline`);
+    },
+    defaultValueFormatter(val) {
+      if(parseInt(val)) {
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
+      return val;
     },
-    pinWaterRep: function() {
-      this.set('isWaterRepPinned', !this.isWaterRepPinned);
+    _hasData(alerts) {
+      return alerts.length > 0;
     },
-    handleLiquidRepHover: function() {
-      if(!this.isLiquidRepPinned) {
-        this.set('toggleLiquidRep', !this.toggleLiquidRep);
+    _isHighProrityAlert(type) {
+      return type === 'high';
+    },
+    _isMediumProrityAlert(type) {
+      return type === 'medium';
+    },
+    _isCase(type) {
+      return type === 'case';
+    },
+    _onIronResize() {
+      if(this.items) {
+        let arr = this.splice('items', 0);
+        this.set('items', arr);
       }
-    },
-    pinLiquidRep: function() {
-      this.set('isLiquidRepPinned', !this.isLiquidRepPinned);
-    },
-    updateSpineTopValues: function(type) {
-        this.set('liqTopDef', this.properties.spineTopDefaults.value.liquid[type].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-        this.set('oilTopDef', this.properties.spineTopDefaults.value.oil[type].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-        this.set('gasTopDef', this.properties.spineTopDefaults.value.gas[type].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-        this.set('waterTopDef', this.properties.spineTopDefaults.value.water[type].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-        this.set('alerTopLowDef', this.properties.spineTopDefaults.value.alerts[type].low.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-        this.set('alerTopHigDef', this.properties.spineTopDefaults.value.alerts[type].high.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-        this.set('casesTopLowDef', this.properties.spineTopDefaults.value.cases[type].low.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-        this.set('casesTopHigDef', this.properties.spineTopDefaults.value.cases[type].high.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-    },
-    _gotoHome: function() {
-      this.fire('refresh-page');
     }
   });
 })();

@@ -37,7 +37,10 @@
     "px-flexbox-design": "^1.0.2",
     "px-spacing-responsive-design": "^1.0.2",
     "px-dark-theme": "^2.1.0",
-    "px-dark-demo-theme": "^2.1.0"
+    "px-dark-demo-theme": "^2.1.0",
+    "px-defaults-design": "^2.0.2",
+    "px-normalize-design": "^1.0.2",
+    "px-box-sizing-design": "^1.0.2"
   },
   "resolutions": {
     "webcomponentsjs": "^0.7.0"
