@@ -46,23 +46,30 @@ REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
             <template is="dom-if" if="{{item.show}}">
               <div class$="flex flex--row tenth kpi kpi-item-{{idx}} u-1/1-portable" on-tap="handleKpiTap">
                 <div class="flex flex--col">
-                  <div class="flex flex--row flex__item flex__item--top">
-                    <div class="caps">[[item.label]]</div>
-                    <template is="dom-if" if="[[data[idx].trend]]">
-                      <div>
-                        <div class="weight--bold trend" hidden$="[[item.toggleSparkline]]">
-                          <px-icon icon="px-nav:[[item.data.trend.direction]]" 
-                            class="rate-icon" style$="color: [[item.data.trend.color]];"></px-icon>
-                          <span>[[item.data.trend.value]]</span>
+                  <template is="dom-if" if="[[!item.labelOnly]]">
+                    <div class="flex flex--row flex__item flex__item--top">
+                      <div class="caps">[[item.label]]</div>
+                      <template is="dom-if" if="[[data[idx].trend]]">
+                        <div>
+                          <div class="weight--bold trend" hidden$="[[item.toggleSparkline]]">
+                            <px-icon icon="px-nav:[[item.data.trend.direction]]" 
+                              class="rate-icon" style$="color: [[item.data.trend.color]];"></px-icon>
+                            <span>[[item.data.trend.value]]</span>
+                          </div>
+                          <div hidden$="[[!item.toggleSparkline]]" class="flex flex--right">
+                            <span class="weight--bold">&nbsp;[[item.data.value]]</span>
+                            <span class="zeta flex__item--middle"> [[item.unit]]</span>
+                          </div>
                         </div>
-                        <div hidden$="[[!item.toggleSparkline]]" class="flex flex--right">
-                          <span class="weight--bold">&nbsp;[[item.data.value]]</span>
-                          <span class="zeta flex__item--middle"> [[item.unit]]</span>
-                        </div>
+                      </template>
+                    </div>
+                  </template>
+                  <div class="flex flex--row">
+                    <template is="dom-if" if="[[item.labelOnly]]">
+                      <div class="label-only">
+                        <span class="epsilon u-1/2-portable weight--bold">[[item.data.value]]</span>
                       </div>
                     </template>
-                  </div>
-                  <div class="flex flex--row">
                     <template is="dom-if" if="[[item.sparklineConfig]]">
                       <div class="chart" hidden$="[[!item.toggleSparkline]]">
                         <og-sparkline chart-data="[[item.data.sparkline.value]]" 
@@ -80,11 +87,13 @@ REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
                         <span class="zeta flex__item--middle"> [[item.unit]]</span>
                       </div>
                     </template>
-                    <template is="dom-if" if="[[!item.sparklineConfig]]">
-                      <div class="flex flex--left flex--bottom">
-                        <span class="delta-epsilon u-1/2-portable">[[item.data.value]]</span>
-                        <span class="zeta flex__item--middle u-1/2-portable"> [[item.unit]]</span>
-                      </div>
+                    <template is="dom-if" if="[[!item.labelOnly]]">
+                      <template is="dom-if" if="[[!item.sparklineConfig]]">
+                        <div class="flex flex--left flex--bottom">
+                          <span class="delta-epsilon u-1/2-portable">[[item.data.value]]</span>
+                          <span class="zeta flex__item--middle u-1/2-portable"> [[item.unit]]</span>
+                        </div>
+                      </template>
                     </template>
                   </div>
                 </div>

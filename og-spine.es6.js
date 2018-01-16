@@ -123,6 +123,11 @@
           } else {
             this.set(`items.${idx}.show`, true);
           }
+          if(!_item.labelOnly) {
+            this.set(`items.${idx}.labelOnly`, false);
+          } else {
+            this.set(`items.${idx}.labelOnlyFlexClass`, 'flex--middle');
+          }
         });
         this._onDataChange(this.data);
       }
@@ -147,6 +152,7 @@
             _item.toggleSparkline = false;
           });
         }
+        console.log(this.items);
         this.notifyPath('items.*');
       }
     },
