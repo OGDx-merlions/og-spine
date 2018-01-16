@@ -152,7 +152,6 @@
             _item.toggleSparkline = false;
           });
         }
-        console.log(this.items);
         this.notifyPath('items.*');
       }
     },
