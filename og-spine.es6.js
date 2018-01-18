@@ -185,6 +185,9 @@
     _isMediumProrityAlert(type) {
       return type === 'medium';
     },
+    _isWarning(type) {
+      return type === 'warning';
+    },
     _isCase(type) {
       return type === 'case';
     },
